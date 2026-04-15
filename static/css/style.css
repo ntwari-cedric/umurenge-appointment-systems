@@ -1,0 +1,931 @@
+html, body {
+    margin: 0;
+    min-height: 100%;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #e6f2ff;
+}
+
+/* ---------- BASIC LAYOUT ---------- */
+.content {
+    padding: 20px;
+}
+
+.center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: 20px;
+    gap: 12px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+}
+
+input, select {
+    width: 260px;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #bbb;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+button {
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    margin-right: 8px;
+    border-radius: 6px;
+    font-weight: bold;
+    transition: 0.25s ease;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+label {
+    font-weight: bold;
+    margin-top: 8px;
+}
+
+.hidden-form {
+    display: none;
+    margin-top: 20px;
+}
+
+.button-row,
+.form-action-row {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.home-actions {
+    display: flex;
+    gap: 15px;
+}
+
+.error-text {
+    color: #ff4d4d;
+    font-weight: bold;
+    text-align: center;
+}
+
+.success-text {
+    color: #32cd32;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* ---------- OLD HEADER ---------- */
+.header {
+    display: flex;
+    height: 80px;
+    color: white;
+}
+
+.header .green,
+.header .blue {
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header .green {
+    background-color: green;
+}
+
+.header .blue {
+    background-color: #4da6ff;
+}
+
+/* ---------- SIMPLE BUTTONS ---------- */
+.view-btn {
+    background-color: #4da6ff;
+    color: white;
+}
+
+.approve-btn {
+    background-color: green;
+    color: white;
+}
+
+.reject-btn {
+    background-color: red;
+    color: white;
+}
+
+/* ---------- SIMPLE TABLE / CARD ---------- */
+.appointment-table {
+    width: 95%;
+    border-collapse: collapse;
+    background: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.appointment-table th,
+.appointment-table td {
+    border: 1px solid #ccc;
+    padding: 12px;
+    text-align: center;
+}
+
+.appointment-table th {
+    background-color: #cce5ff;
+}
+
+.status {
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-weight: bold;
+    color: white;
+}
+
+.status.pending {
+    background-color: orange;
+}
+
+.status.approved {
+    background-color: green;
+}
+
+.status.rejected {
+    background-color: red;
+}
+
+.details-card {
+    width: 60%;
+    padding: 20px;
+    border-radius: 10px;
+    background: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* ---------- LOGIN / REGISTER ---------- */
+.auth-page {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: url("../images/rwanda-bg.jpg") no-repeat center center/cover;
+}
+
+.auth-page::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        135deg,
+        rgba(0, 35, 20, 0.78),
+        rgba(0, 0, 0, 0.62),
+        rgba(0, 45, 85, 0.68)
+    );
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+}
+
+.auth-overlay {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 420px;
+    padding: 35px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.14);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+    animation: fadeIn 0.6s ease;
+}
+
+.auth-tabs {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 35px;
+}
+
+.auth-tab {
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    padding-bottom: 8px;
+    border-bottom: 3px solid transparent;
+}
+
+.auth-tab.active {
+    border-bottom: 3px solid orange;
+}
+
+.auth-form-area {
+    width: 100%;
+}
+
+.auth-title {
+    margin: 0 0 8px;
+    font-size: 28px;
+    text-align: left;
+}
+
+.auth-subtitle {
+    margin: 0 0 25px;
+    font-size: 14px;
+    color: #f1f1f1;
+    text-align: left;
+}
+
+.modern-form {
+    width: 100%;
+    align-items: stretch;
+    gap: 16px;
+}
+
+.modern-form input,
+.modern-form select {
+    width: 100%;
+    padding: 12px 2px;
+    font-size: 18px;
+    color: white;
+    outline: none;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.72);
+}
+
+.modern-form input::placeholder {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.modern-form select {
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.32);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.modern-form select option {
+    color: black;
+}
+
+.remember-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 5px;
+    font-size: 15px;
+    font-weight: normal;
+    color: white;
+}
+
+.remember-box input {
+    width: auto;
+    margin: 0;
+}
+
+.login-main-btn {
+    width: 100%;
+    margin-top: 10px;
+    padding: 14px;
+    border: none;
+    border-radius: 28px;
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    cursor: pointer;
+    color: white;
+    background: #ff8c1a;
+}
+
+.login-main-btn:hover {
+    background: #e57d11;
+}
+
+.auth-links {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.auth-links a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.auth-links a:hover {
+    text-decoration: underline;
+}
+
+/* ---------- LANDING PAGE LONG ---------- */
+.landing-page-long {
+    color: white;
+    background:
+        linear-gradient(135deg, rgba(7, 34, 18, 0.88), rgba(8, 28, 58, 0.88)),
+        url("../images/rwanda_a.jpeg") no-repeat center center/cover;
+    background-attachment: fixed;
+}
+
+.landing-hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.landing-overlay {
+    position: relative;
+    z-index: 2;
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+}
+
+.landing-content,
+.landing-section-container {
+    width: 100%;
+    max-width: 1150px;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.landing-badge {
+    display: inline-block;
+    margin-bottom: 22px;
+    padding: 10px 18px;
+    font-size: 13px;
+    letter-spacing: 2px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}
+
+.landing-title {
+    max-width: 900px;
+    margin: 0 auto 18px;
+    font-size: 54px;
+    line-height: 1.15;
+    font-weight: 700;
+}
+
+.landing-title span {
+    color: #ffd166;
+}
+
+.landing-text {
+    max-width: 760px;
+    margin: 0 auto 35px;
+    font-size: 19px;
+    line-height: 1.7;
+    color: #f3f3f3;
+}
+
+.landing-actions {
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    flex-wrap: wrap;
+    margin-bottom: 55px;
+}
+
+.landing-login-btn,
+.landing-register-btn {
+    min-width: 180px;
+    padding: 15px 28px;
+    border-radius: 999px;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.25s ease;
+    border: none;
+}
+
+.landing-login-btn {
+    color: white;
+    background: #ff8c1a;
+    box-shadow: 0 8px 22px rgba(255, 140, 26, 0.35);
+}
+
+.landing-login-btn:hover {
+    background: #e67900;
+    transform: translateY(-2px);
+}
+
+.landing-register-btn {
+    color: white;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}
+
+.landing-register-btn:hover {
+    background: rgba(255, 255, 255, 0.22);
+    transform: translateY(-2px);
+}
+
+.landing-scroll-note {
+    margin-top: 28px;
+    font-size: 14px;
+    color: #f4f4f4;
+    opacity: 0.9;
+}
+
+.landing-section {
+    padding: 90px 20px;
+}
+
+.section-title {
+    margin: 0 0 14px;
+    font-size: 42px;
+    text-align: center;
+    color: white;
+}
+
+.section-subtitle {
+    max-width: 850px;
+    margin: 0 auto 40px;
+    font-size: 18px;
+    line-height: 1.7;
+    text-align: center;
+    color: #eeeeee;
+}
+
+.landing-section-glass {
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+}
+
+.landing-section-dark {
+    background: rgba(0, 0, 0, 0.16);
+}
+
+.landing-section-final {
+    padding-bottom: 110px;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.center-final {
+    text-align: center;
+}
+
+.final-text {
+    margin-bottom: 30px;
+}
+
+.landing-info-boxes,
+.roles-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+    margin-top: 20px;
+}
+
+.landing-box,
+.role-card {
+    padding: 26px 22px;
+    text-align: left;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.18);
+}
+
+.landing-box h3,
+.role-card h3 {
+    margin: 0 0 10px;
+    font-size: 22px;
+    color: #ffffff;
+}
+
+.role-card h3 {
+    color: #ffd166;
+    font-size: 24px;
+}
+
+.landing-box p,
+.role-card p {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.7;
+    color: #f1f1f1;
+}
+
+.how-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 22px;
+}
+
+.how-card {
+    padding: 26px 20px;
+    text-align: left;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.20);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.how-number {
+    margin-bottom: 12px;
+    font-size: 28px;
+    font-weight: bold;
+    color: #ffd166;
+}
+
+.how-card h3 {
+    margin: 0 0 10px;
+    font-size: 22px;
+}
+
+.how-card p {
+    margin: 0;
+    line-height: 1.65;
+    color: #f1f1f1;
+}
+
+/* ---------- DASHBOARD ---------- */
+.dashboard-page {
+    min-height: 100vh;
+    color: white;
+    background:
+        linear-gradient(135deg, rgba(8, 35, 20, 0.92), rgba(9, 33, 63, 0.92)),
+        url("../images/rwanda_a.jpeg") no-repeat center center/cover;
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 26px 40px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.topbar-left h1 {
+    margin: 0;
+    font-size: 32px;
+}
+
+.topbar-left p {
+    margin: 6px 0 0;
+    font-size: 15px;
+    color: #e8e8e8;
+}
+
+.topbar-link {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 12px 18px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.20);
+}
+
+.topbar-link:hover {
+    background: rgba(255, 255, 255, 0.20);
+}
+
+.dashboard-wrapper {
+    padding: 30px 40px 50px;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+}
+
+.dashboard-card,
+.dashboard-form-card {
+    padding: 24px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.10);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 14px 35px rgba(0, 0, 0, 0.18);
+}
+
+.dashboard-card h2,
+.dashboard-form-card h2 {
+    margin-top: 0;
+    margin-bottom: 18px;
+    font-size: 24px;
+}
+
+.dashboard-form {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(220px, 1fr));
+    gap: 16px;
+    align-items: center;
+}
+
+.dashboard-form input,
+.dashboard-form select {
+    width: 100%;
+    padding: 14px;
+    font-size: 15px;
+    color: white;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, 0.14);
+    box-sizing: border-box;
+}
+
+.dashboard-form input::placeholder {
+    color: rgba(255, 255, 255, 0.82);
+}
+
+.dashboard-form select option {
+    color: black;
+}
+
+.modern-table {
+    width: 100%;
+    border-collapse: collapse;
+    overflow: hidden;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.modern-table th,
+.modern-table td {
+    padding: 14px 16px;
+    text-align: left;
+    color: white;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+}
+
+.modern-table th {
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    background: rgba(255, 255, 255, 0.14);
+}
+
+.modern-table tr:hover {
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.primary-btn,
+.secondary-btn,
+.danger-btn {
+    border: none;
+    padding: 11px 18px;
+    border-radius: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    color: white;
+    transition: 0.25s ease;
+}
+
+.primary-btn {
+    background: linear-gradient(135deg, #1faa59, #15803d);
+}
+
+.secondary-btn {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+}
+
+.danger-btn {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+}
+
+.primary-btn:hover,
+.secondary-btn:hover,
+.danger-btn:hover {
+    transform: translateY(-1px);
+    opacity: 0.95;
+}
+
+.pill {
+    display: inline-block;
+    padding: 7px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: bold;
+    color: white;
+}
+
+.pending-pill {
+    background: #f59e0b;
+}
+
+.approved-pill {
+    background: #22c55e;
+}
+
+.rejected-pill {
+    background: #ef4444;
+}
+
+.details-wide-card {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.details-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+}
+
+.simple-grid {
+    margin-bottom: 20px;
+}
+
+.detail-item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 18px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.10);
+}
+
+.full-item {
+    grid-column: 1 / -1;
+}
+
+.detail-label {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #d8d8d8;
+}
+
+.detail-value {
+    font-size: 17px;
+    font-weight: bold;
+    color: white;
+}
+
+/* ---------- OFFICE ACTION FORM ---------- */
+.office-action-forms {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 220px;
+}
+
+.mini-form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: stretch;
+}
+
+.mini-form input {
+    width: 100%;
+    padding: 10px;
+    color: white;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.12);
+    box-sizing: border-box;
+}
+
+.mini-form input::placeholder {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+/* ---------- ANIMATION ---------- */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 1000px) {
+    .how-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .roles-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 900px) {
+    .landing-title {
+        font-size: 42px;
+    }
+
+    .landing-text {
+        font-size: 17px;
+    }
+
+    .landing-info-boxes {
+        grid-template-columns: 1fr;
+    }
+
+    .landing-box {
+        text-align: center;
+    }
+
+    .dashboard-form {
+        grid-template-columns: 1fr;
+    }
+
+    .details-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+}
+
+@media (max-width: 700px) {
+    .section-title {
+        font-size: 32px;
+    }
+
+    .section-subtitle {
+        font-size: 16px;
+    }
+
+    .how-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-wrapper,
+    .topbar {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .topbar-left h1 {
+        font-size: 26px;
+    }
+
+    .modern-table th,
+    .modern-table td {
+        padding: 10px;
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 600px) {
+    .landing-title {
+        font-size: 32px;
+    }
+
+    .landing-text {
+        font-size: 15px;
+    }
+
+    .landing-login-btn,
+    .landing-register-btn {
+        width: 100%;
+        max-width: 260px;
+    }
+}

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registered Users</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="dashboard-page">
+
+<div class="topbar">
+    <div class="topbar-left">
+        <h1>Registered Users</h1>
+        <p>Users stored in the database</p>
+    </div>
+    <div class="topbar-right">
+        <a href="{{ url_for('admin_dashboard') }}" class="topbar-link">Back</a>
+    </div>
+</div>
+
+<div class="dashboard-wrapper">
+    <div class="dashboard-card">
+        <h2>Users Table</h2>
+
+        {% if users %}
+            <table class="modern-table">
+                <thead>
+                    <tr>
+                        <th>Email (Primary Key)</th>
+                        <th>Name</th>
+                        <th>Role</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <td>{{ user["email"] }}</td>
+                        <td>{{ user["name"] }}</td>
+                        <td>{{ user["role"] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No users found.</p>
+        {% endif %}
+    </div>
+</div>
+
+</body>
+</html>

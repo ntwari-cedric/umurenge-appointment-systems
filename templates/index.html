@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Umurenge Appointment System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="landing-page-long">
+
+    <!-- HERO SECTION -->
+    <section class="landing-hero">
+        <div class="landing-overlay">
+            <div class="landing-content">
+                <div class="landing-badge">RWANDA · UMURENGE SERVICES</div>
+
+                <h1 class="landing-title">
+                    Welcome to the <span>Umurenge Appointment System</span>
+                </h1>
+
+                <p class="landing-text">
+                    A digital platform that helps citizens book public service appointments,
+                    receive updates, and save time when visiting their Umurenge offices.
+                </p>
+
+                <div class="landing-actions">
+                    <a href="{{ url_for('login') }}">
+                        <button type="button" class="landing-login-btn">Login</button>
+                    </a>
+
+                    <a href="{{ url_for('register') }}">
+                        <button type="button" class="landing-register-btn">Sign Up</button>
+                    </a>
+                </div>
+
+                <div class="landing-scroll-note">
+                    <span>Scroll down to learn more</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURES SECTION -->
+    <section class="landing-section landing-section-glass">
+        <div class="landing-section-container">
+            <h2 class="section-title">Why Use This System?</h2>
+            <p class="section-subtitle">
+                The system is designed to improve service delivery, reduce waiting time,
+                and allow citizens to interact with Umurenge offices more efficiently.
+            </p>
+
+            <div class="landing-info-boxes">
+                <div class="landing-box">
+                    <h3>Easy Booking</h3>
+                    <p>
+                        Users can select a service, choose an Umurenge office,
+                        and pick a suitable date starting from tomorrow.
+                    </p>
+                </div>
+
+                <div class="landing-box">
+                    <h3>Track Updates</h3>
+                    <p>
+                        Citizens can log in anytime and see whether their appointment
+                        was approved, rejected, shifted, or cancelled.
+                    </p>
+                </div>
+
+                <div class="landing-box">
+                    <h3>Faster Service</h3>
+                    <p>
+                        Instead of waiting in long physical lines, users prepare
+                        their visits in advance and arrive with a confirmed request.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="landing-section landing-section-dark">
+        <div class="landing-section-container">
+            <h2 class="section-title">How It Works</h2>
+            <p class="section-subtitle">
+                The process is simple and designed for both citizens and administrators.
+            </p>
+
+            <div class="how-grid">
+                <div class="how-card">
+                    <div class="how-number">01</div>
+                    <h3>Create Account</h3>
+                    <p>
+                        A citizen first creates an account through the sign-up page
+                        and then logs into the system.
+                    </p>
+                </div>
+
+                <div class="how-card">
+                    <div class="how-number">02</div>
+                    <h3>Book Appointment</h3>
+                    <p>
+                        The user selects an office, chooses a service, writes a description,
+                        and selects a future date.
+                    </p>
+                </div>
+
+                <div class="how-card">
+                    <div class="how-number">03</div>
+                    <h3>Office Review</h3>
+                    <p>
+                        The Umurenge office dashboard shows all requests sorted by date,
+                        where officers can approve or reject them.
+                    </p>
+                </div>
+
+                <div class="how-card">
+                    <div class="how-number">04</div>
+                    <h3>Get Updates</h3>
+                    <p>
+                        The user sees the latest status at any time and can also cancel
+                        or shift an appointment when necessary.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SYSTEM USERS -->
+    <section class="landing-section landing-section-glass">
+        <div class="landing-section-container">
+            <h2 class="section-title">Who Uses the System?</h2>
+            <p class="section-subtitle">
+                The platform supports three main roles in the appointment workflow.
+            </p>
+
+            <div class="roles-grid">
+                <div class="role-card">
+                    <h3>User</h3>
+                    <p>
+                        Registers an account, books appointments, checks updates,
+                        cancels appointments, and shifts dates when needed.
+                    </p>
+                </div>
+
+                <div class="role-card">
+                    <h3>Umurenge Office</h3>
+                    <p>
+                        Views requests from users, opens appointment details,
+                        and makes decisions by approving or rejecting requests.
+                    </p>
+                </div>
+
+                <div class="role-card">
+                    <h3>Admin</h3>
+                    <p>
+                        Manages system setup by adding Umurenge offices, adding services,
+                        deleting records when necessary, and checking database users.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <section class="landing-section landing-section-final">
+        <div class="landing-section-container center-final">
+            <h2 class="section-title">Start Using the System Today</h2>
+            <p class="section-subtitle final-text">
+                Access public services in a more organized, modern, and efficient way.
+            </p>
+
+            <div class="landing-actions">
+                <a href="{{ url_for('login') }}">
+                    <button type="button" class="landing-login-btn">Login</button>
+                </a>
+
+                <a href="{{ url_for('register') }}">
+                    <button type="button" class="landing-register-btn">Create Account</button>
+                </a>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>

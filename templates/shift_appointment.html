@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shift Appointment</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="dashboard-page">
+
+<div class="topbar">
+    <div class="topbar-left">
+        <h1>Shift Appointment</h1>
+        <p>Choose a new appointment date</p>
+    </div>
+    <div class="topbar-right">
+        <a href="{{ url_for('user_dashboard') }}" class="topbar-link">Back</a>
+    </div>
+</div>
+
+<div class="dashboard-wrapper">
+    <div class="dashboard-form-card">
+        <h2>Shift Appointment Date</h2>
+
+        <div class="details-grid simple-grid">
+            <div class="detail-item">
+                <span class="detail-label">Service</span>
+                <span class="detail-value">{{ appointment["service_name"] }}</span>
+            </div>
+
+            <div class="detail-item">
+                <span class="detail-label">Office</span>
+                <span class="detail-value">{{ appointment["office_name"] }}</span>
+            </div>
+
+            <div class="detail-item">
+                <span class="detail-label">Current Date</span>
+                <span class="detail-value">{{ appointment["date"] }}</span>
+            </div>
+
+            <div class="detail-item">
+                <span class="detail-label">Status</span>
+                <span class="detail-value">{{ appointment["status"] }}</span>
+            </div>
+
+            <div class="detail-item full-item">
+                <span class="detail-label">Office Message</span>
+                <span class="detail-value">
+                    {% if appointment["office_comment"] %}
+                        {{ appointment["office_comment"] }}
+                    {% else %}
+                        No message yet
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+
+        <form method="POST" class="dashboard-form">
+            <input type="date" name="new_date" min="{{ tomorrow }}" required>
+            <button type="submit" class="primary-btn">Save New Date</button>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

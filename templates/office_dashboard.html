@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Office Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="dashboard-page">
+
+<div class="topbar">
+    <div class="topbar-left">
+        <h1>Office Dashboard</h1>
+        <p>Welcome, {{ office_name }}</p>
+    </div>
+    <div class="topbar-right">
+        <a href="{{ url_for('logout') }}" class="topbar-link">Logout</a>
+    </div>
+</div>
+
+<div class="dashboard-wrapper">
+
+    <div class="dashboard-card">
+        <h2>Appointments</h2>
+
+        {% if appointments %}
+            <table class="modern-table">
+                <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Email</th>
+                        <th>Service</th>
+                        <th>Date</th>
+                        <th>User Description</th>
+                        <th>Status</th>
+                        <th>Office Message</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for a in appointments %}
+                    <tr>
+                        <td>{{ a["user_name"] }}</td>
+                        <td>{{ a["user_email"] }}</td>
+                        <td>{{ a["service"] }}</td>
+                        <td>{{ a["appointment_date"] }}</td>
+                        <td>{{ a["description"] }}</td>
+                        <td>
+                            {% if a["status"] == "Approved" %}
+                                <span class="pill approved-pill">Approved</span>
+                            {% elif a["status"] == "Rejected" %}
+                                <span class="pill rejected-pill">Rejected</span>
+                            {% elif a["status"] == "Cancelled" %}
+                                <span class="pill rejected-pill">Cancelled</span>
+                            {% else %}
+                                <span class="pill pending-pill">Pending</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if a["office_comment"] %}
+                                {{ a["office_comment"] }}
+                            {% else %}
+                                <span>No message yet</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{{ url_for('view_appointment', appointment_id=a['id']) }}">
+                                <button type="button" class="secondary-btn">View</button>
+                            </a>
+
+                            {% if a["status"] == "Pending" %}
+                                <div class="office-action-forms">
+                                    <form action="{{ url_for('approve_appointment', appointment_id=a['id']) }}" method="POST" class="mini-form">
+                                        <input type="text" name="comment" placeholder="Approval message" required>
+                                        <button type="submit" class="primary-btn">Approve</button>
+                                    </form>
+
+                                    <form action="{{ url_for('reject_appointment', appointment_id=a['id']) }}" method="POST" class="mini-form">
+                                        <input type="text" name="comment" placeholder="Reason for rejection" required>
+                                        <button type="submit" class="danger-btn">Reject</button>
+                                    </form>
+                                </div>
+                            {% else %}
+                                <span>No more action</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No appointments available</p>
+        {% endif %}
+    </div>
+
+</div>
+
+</body>
+</html>

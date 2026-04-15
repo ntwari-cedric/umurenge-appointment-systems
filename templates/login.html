@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Umurenge Appointment System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="auth-page">
+
+    <div class="auth-overlay">
+        <div class="auth-card">
+            <div class="auth-tabs">
+                <a href="{{ url_for('login') }}" class="auth-tab active">SIGN IN</a>
+                <a href="{{ url_for('register') }}" class="auth-tab">SIGN UP</a>
+            </div>
+
+            <div class="auth-form-area">
+                <h2 class="auth-title">Welcome Back</h2>
+                <p class="auth-subtitle">Login to continue to Umurenge Appointment System</p>
+
+                {% if error %}
+                    <p class="error-text">{{ error }}</p>
+                {% endif %}
+
+                {% if success %}
+                    <p class="success-text">{{ success }}</p>
+                {% endif %}
+
+                <form method="POST" class="modern-form">
+                    <input type="email" name="email" placeholder="Email" required>
+                    <input type="password" name="password" placeholder="Password" required>
+
+                    <select name="role" required>
+                        <option value="">Login as</option>
+                        <option value="user">User</option>
+                        <option value="admin">Admin</option>
+                        <option value="umurenge_office">Umurenge Office</option>
+                    </select>
+
+                    <label class="remember-box">
+                        <input type="checkbox">
+                        <span>Keep me logged in</span>
+                    </label>
+
+                    <button type="submit" class="login-main-btn">LOGIN</button>
+                </form>
+
+                <div class="auth-links">
+                    <a href="{{ url_for('home') }}">Back to Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
