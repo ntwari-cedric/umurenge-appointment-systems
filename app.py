@@ -1,8 +1,11 @@
 import os
 import sys
-import sqlite3
+import psycopg2
+from psycopg2.extras import RealDictCursor
 from datetime import date, timedelta, datetime
 from flask import Flask, render_template, request, redirect, url_for, session
+from dotenv import load_dotenv
+load_dotenv()
 
 # ---------------- RESOURCE PATH ----------------
 def resource_path(relative_path):
@@ -26,7 +29,11 @@ app = Flask(
 app.secret_key = "umurenge_secret_key_2026"
 app.config["SESSION_PERMANENT"] = False
 
-DATABASE = resource_path("database.db")
+# PostgreSQL Database configuration
+# IMPORTANT: Replace 'YOUR-ACTUAL-PASSWORD' with your real Supabase password
+# If your password has special characters like @, #, $, use URL encoding:
+# @ = %40, # = %23, $ = %24
+DATABASE_URL = os.getenv('DATABASE_URL')
 
 ADMIN_EMAIL = "ntwaricedrick001@gmail.com"
 ADMIN_PASSWORD = "1234cedo"
@@ -52,14 +59,20 @@ def add_no_cache_headers(response):
 
 # ---------------- DATABASE ----------------
 def get_db():
-    conn = sqlite3.connect(DATABASE)
-    conn.row_factory = sqlite3.Row
-    return conn
+    """Create and return a PostgreSQL database connection"""
+    try:
+        conn = psycopg2.connect(DATABASE_URL)
+        return conn
+    except Exception as e:
+        print(f"Database connection error: {e}")
+        raise
 
 def create_tables():
+    """Create all tables in PostgreSQL (matching your SQLite schema)"""
     conn = get_db()
     cursor = conn.cursor()
-
+    
+    # Create users table
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS users (
             email TEXT PRIMARY KEY,
@@ -68,17 +81,19 @@ def create_tables():
             role TEXT NOT NULL
         )
     """)
-
+    
+    # Create services table
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS services (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            id SERIAL PRIMARY KEY,
             service_name TEXT NOT NULL UNIQUE
         )
     """)
-
+    
+    # Create appointments table
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS appointments (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            id SERIAL PRIMARY KEY,
             user_email TEXT NOT NULL,
             office_email TEXT NOT NULL,
             service_id INTEGER NOT NULL,
@@ -92,10 +107,13 @@ def create_tables():
             FOREIGN KEY (service_id) REFERENCES services(id)
         )
     """)
-
+    
     conn.commit()
+    cursor.close()
     conn.close()
+    print("✅ PostgreSQL tables created successfully!")
 
+# Initialize tables when app starts
 create_tables()
 
 # ---------------- HELPERS ----------------
@@ -147,10 +165,10 @@ def register():
         try:
             cursor.execute("""
                 INSERT INTO users (email, name, password, role)
-                VALUES (?, ?, ?, ?)
+                VALUES (%s, %s, %s, %s)
             """, (email, name, password, "user"))
             conn.commit()
-        except sqlite3.IntegrityError:
+        except psycopg2.IntegrityError:
             conn.close()
             return render_template("register.html", error="Email already exists")
 
@@ -189,7 +207,7 @@ def login():
 
             cursor.execute("""
                 SELECT * FROM users
-                WHERE email = ? AND password = ? AND role = ?
+                WHERE email = %s AND password = %s AND role = %s
             """, (email, password, role))
 
             user = cursor.fetchone()
@@ -198,14 +216,14 @@ def login():
             if user:
                 session.clear()
                 session.permanent = False
-                session["user_email"] = user["email"]
-                session["user_name"] = user["name"]
-                session["role"] = user["role"]
+                session["user_email"] = user[0]  # email is at index 0
+                session["user_name"] = user[1]   # name is at index 1
+                session["role"] = user[3]        # role is at index 3
 
-                if user["role"] == "user":
+                if user[3] == "user":
                     return redirect(url_for("user_dashboard"))
 
-                if user["role"] == "umurenge_office":
+                if user[3] == "umurenge_office":
                     return redirect(url_for("office_dashboard"))
             else:
                 error = "Wrong email, password, or role"
@@ -270,10 +288,10 @@ def add_office():
     try:
         cursor.execute("""
             INSERT INTO users (email, name, password, role)
-            VALUES (?, ?, ?, ?)
+            VALUES (%s, %s, %s, %s)
         """, (email, name, password, "umurenge_office"))
         conn.commit()
-    except sqlite3.IntegrityError:
+    except psycopg2.IntegrityError:
         conn.close()
         return render_template(
             "admin_dashboard.html",
@@ -294,8 +312,8 @@ def delete_office(office_email):
     conn = get_db()
     cursor = conn.cursor()
 
-    cursor.execute("DELETE FROM appointments WHERE office_email = ?", (office_email,))
-    cursor.execute("DELETE FROM users WHERE email = ? AND role = 'umurenge_office'", (office_email,))
+    cursor.execute("DELETE FROM appointments WHERE office_email = %s", (office_email,))
+    cursor.execute("DELETE FROM users WHERE email = %s AND role = 'umurenge_office'", (office_email,))
 
     conn.commit()
     conn.close()
@@ -322,9 +340,9 @@ def add_service():
     cursor = conn.cursor()
 
     try:
-        cursor.execute("INSERT INTO services (service_name) VALUES (?)", (service,))
+        cursor.execute("INSERT INTO services (service_name) VALUES (%s)", (service,))
         conn.commit()
-    except sqlite3.IntegrityError:
+    except psycopg2.IntegrityError:
         conn.close()
         return render_template(
             "admin_dashboard.html",
@@ -345,8 +363,8 @@ def delete_service(service_id):
     conn = get_db()
     cursor = conn.cursor()
 
-    cursor.execute("DELETE FROM appointments WHERE service_id = ?", (service_id,))
-    cursor.execute("DELETE FROM services WHERE id = ?", (service_id,))
+    cursor.execute("DELETE FROM appointments WHERE service_id = %s", (service_id,))
+    cursor.execute("DELETE FROM services WHERE id = %s", (service_id,))
 
     conn.commit()
     conn.close()
@@ -376,7 +394,7 @@ def user_dashboard():
         FROM appointments
         JOIN services ON appointments.service_id = services.id
         JOIN users AS office ON appointments.office_email = office.email
-        WHERE appointments.user_email = ?
+        WHERE appointments.user_email = %s
         ORDER BY appointments.date ASC, appointments.created_at DESC
     """, (user_email,))
     appointments = cursor.fetchall()
@@ -415,7 +433,7 @@ def book_appointment():
 
     cursor.execute("""
         INSERT INTO appointments (user_email, office_email, service_id, date, description, status)
-        VALUES (?, ?, ?, ?, ?, ?)
+        VALUES (%s, %s, %s, %s, %s, %s)
     """, (user_email, office_email, service_id, selected_date, description, "Pending"))
 
     conn.commit()
@@ -437,7 +455,7 @@ def cancel_appointment(appointment_id):
     cursor.execute("""
         UPDATE appointments
         SET status = 'Cancelled'
-        WHERE id = ? AND user_email = ?
+        WHERE id = %s AND user_email = %s
     """, (appointment_id, user_email))
 
     conn.commit()
@@ -469,8 +487,8 @@ def shift_appointment(appointment_id):
 
         cursor.execute("""
             UPDATE appointments
-            SET date = ?, status = 'Pending'
-            WHERE id = ? AND user_email = ?
+            SET date = %s, status = 'Pending'
+            WHERE id = %s AND user_email = %s
         """, (new_date, appointment_id, user_email))
 
         conn.commit()
@@ -488,7 +506,7 @@ def shift_appointment(appointment_id):
         FROM appointments
         JOIN services ON appointments.service_id = services.id
         JOIN users AS office ON appointments.office_email = office.email
-        WHERE appointments.id = ? AND appointments.user_email = ?
+        WHERE appointments.id = %s AND appointments.user_email = %s
     """, (appointment_id, user_email))
 
     appointment = cursor.fetchone()
@@ -528,7 +546,7 @@ def office_dashboard():
         FROM appointments
         JOIN users AS user ON appointments.user_email = user.email
         JOIN services ON appointments.service_id = services.id
-        WHERE appointments.office_email = ?
+        WHERE appointments.office_email = %s
         ORDER BY appointments.date ASC, appointments.created_at DESC
     """, (office_email,))
     appointments = cursor.fetchall()
@@ -566,7 +584,7 @@ def view_appointment(appointment_id):
         FROM appointments
         JOIN users AS user ON appointments.user_email = user.email
         JOIN services ON appointments.service_id = services.id
-        WHERE appointments.id = ? AND appointments.office_email = ?
+        WHERE appointments.id = %s AND appointments.office_email = %s
     """, (appointment_id, office_email))
 
     appointment = cursor.fetchone()
@@ -591,8 +609,8 @@ def approve_appointment(appointment_id):
 
     cursor.execute("""
         UPDATE appointments
-        SET status = 'Approved', office_comment = ?
-        WHERE id = ? AND office_email = ?
+        SET status = 'Approved', office_comment = %s
+        WHERE id = %s AND office_email = %s
     """, (comment, appointment_id, office_email))
 
     conn.commit()
@@ -614,8 +632,8 @@ def reject_appointment(appointment_id):
 
     cursor.execute("""
         UPDATE appointments
-        SET status = 'Rejected', office_comment = ?
-        WHERE id = ? AND office_email = ?
+        SET status = 'Rejected', office_comment = %s
+        WHERE id = %s AND office_email = %s
     """, (comment, appointment_id, office_email))
 
     conn.commit()
